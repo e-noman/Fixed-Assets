@@ -1,0 +1,373 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2023-11-25 00:11:39.102571",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "item_name",
+  "asset_name",
+  "asset_code",
+  "asset_category",
+  "column_break_23",
+  "asset_quantity",
+  "model",
+  "serial_no",
+  "column_break_3",
+  "company",
+  "branch",
+  "location",
+  "custodian",
+  "custodian_name",
+  "section_break_ebd8r",
+  "type_of_acqusition",
+  "date_of_acquisition",
+  "source_of_fund",
+  "asset_owner",
+  "is_existing_asset",
+  "current_asset_status",
+  "last_asset_status_date",
+  "image",
+  "naming_series",
+  "column_break_48",
+  "purchase_amount",
+  "purchase_invoice",
+  "purchase_date",
+  "depreciation_date",
+  "purchase_details_section",
+  "section_break_31",
+  "maintenance_required",
+  "other_details",
+  "comments",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Organization",
+   "options": "Company",
+   "remember_last_selected_value": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Item Name",
+   "options": "Fixed Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "asset_owner",
+   "fieldtype": "Select",
+   "label": "Asset Owner",
+   "options": "\nSRPD\nUNHCR\nHI\nOther"
+  },
+  {
+   "default": "1",
+   "depends_on": "eval:!doc.is_composite_asset",
+   "fieldname": "is_existing_asset",
+   "fieldtype": "Check",
+   "label": "Is Existing Asset"
+  },
+  {
+   "allow_on_submit": 1,
+   "fetch_from": "item_code.image",
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Image",
+   "no_copy": 1,
+   "print_hide": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "F-ASS-."
+  },
+  {
+   "depends_on": "item_name",
+   "fetch_from": "item_name.item_name",
+   "fetch_if_empty": 1,
+   "fieldname": "asset_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Asset Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "asset_category",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Asset Category",
+   "options": "Asset Category",
+   "reqd": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Location",
+   "options": "Asset Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "custodian",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Custodian",
+   "options": "Employee"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "is_existing_asset",
+   "fieldname": "purchase_details_section",
+   "fieldtype": "Section Break",
+   "label": "Purchase Details"
+  },
+  {
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Data",
+   "label": "Purchase Invoice",
+   "no_copy": 1,
+   "read_only": 1,
+   "read_only_depends_on": "eval:!doc.is_existing_asset"
+  },
+  {
+   "fieldname": "column_break_23",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "asset_quantity",
+   "fieldtype": "Int",
+   "label": "Asset Quantity",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "purchase_date",
+   "fieldtype": "Date",
+   "label": "Purchase Date",
+   "read_only": 1,
+   "read_only_depends_on": "eval:!doc.is_existing_asset && !doc.is_composite_asset"
+  },
+  {
+   "fieldname": "column_break_48",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_31",
+   "fieldtype": "Section Break",
+   "label": "Maintenance"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "description": "Check if Asset requires Preventive Maintenance or Calibration",
+   "fieldname": "maintenance_required",
+   "fieldtype": "Check",
+   "label": "Maintenance Required"
+  },
+  {
+   "fieldname": "other_details",
+   "fieldtype": "Section Break",
+   "label": "Other Details"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Draft\nSubmitted\nPartially Depreciated\nFully Depreciated\nSold\nScrapped\nIn Maintenance\nOut of Order\nIssue\nReceipt\nCapitalized\nDecapitalized",
+   "read_only": 1
+  },
+  {
+   "fieldname": "type_of_acqusition",
+   "fieldtype": "Select",
+   "label": "Type of Acqusition",
+   "options": "\nProcurement-Self Fund\nProcurement-Right of Use\nTransferred-Right of Use\nTransferred-Donation"
+  },
+  {
+   "fieldname": "date_of_acquisition",
+   "fieldtype": "Date",
+   "label": "Date of Acquisition"
+  },
+  {
+   "fieldname": "source_of_fund",
+   "fieldtype": "Select",
+   "label": "Source of Fund",
+   "options": "\nSRPD\nDonor\nIndividual\nOther"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "asset_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Asset Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "serial_no",
+   "fieldtype": "Data",
+   "label": "Serial No"
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model"
+  },
+  {
+   "fieldname": "section_break_ebd8r",
+   "fieldtype": "Section Break",
+   "label": "Acqusition and Purchase Details"
+  },
+  {
+   "depends_on": "eval:!doc.is_existing_asset",
+   "fieldname": "current_asset_status",
+   "fieldtype": "Select",
+   "label": "Current Asset Status",
+   "mandatory_depends_on": "eval:!doc.is_existing_asset",
+   "options": "\nFully Depreciated\nDonated"
+  },
+  {
+   "depends_on": "eval:!doc.is_existing_asset",
+   "fieldname": "last_asset_status_date",
+   "fieldtype": "Date",
+   "label": "Last Asset Status Date",
+   "mandatory_depends_on": "eval:!doc.is_existing_asset"
+  },
+  {
+   "fieldname": "purchase_amount",
+   "fieldtype": "Currency",
+   "label": "Purchase Amount",
+   "options": "Company:company:default_currency",
+   "read_only": 1,
+   "read_only_depends_on": "eval:!doc.is_existing_asset"
+  },
+  {
+   "fieldname": "depreciation_date",
+   "fieldtype": "Date",
+   "label": "Depreciation Date",
+   "no_copy": 1
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Small Text",
+   "label": "Comments"
+  },
+  {
+   "fetch_from": "custodian.employee_name",
+   "fieldname": "custodian_name",
+   "fieldtype": "Data",
+   "label": "Custodian Name",
+   "read_only": 1
+  }
+ ],
+ "image_field": "image",
+ "links": [
+  {
+   "group": "Fixed Asset Movement",
+   "link_doctype": "Fixed Asset Movement",
+   "link_fieldname": "asset"
+  },
+  {
+   "group": "Maintenance",
+   "link_doctype": "Asset Maintenance",
+   "link_fieldname": "asset_name"
+  },
+  {
+   "group": "Repair",
+   "link_doctype": "Asset Repair",
+   "link_fieldname": "asset"
+  },
+  {
+   "group": "Value",
+   "link_doctype": "Asset Value Adjustment",
+   "link_fieldname": "asset"
+  },
+  {
+   "group": "Journal Entry",
+   "link_doctype": "Journal Entry",
+   "link_fieldname": "reference_name",
+   "table_fieldname": "accounts"
+  }
+ ],
+ "modified": "2023-12-16 04:48:30.159307",
+ "modified_by": "Administrator",
+ "module": "Fixed Assets",
+ "name": "Fixed Assets",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Quality Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "asset_code",
+ "track_changes": 1
+}
